@@ -1,0 +1,743 @@
+:host { display: block; }
+
+.auth-page {
+  min-height: 100vh;
+  background: #0f0528;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.back-link {
+  position: fixed;
+  top: 1.25rem; left: 1.25rem;
+  z-index: 100;
+  color: #9d84c7;
+  text-decoration: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  background: rgba(15, 5, 40, 0.85);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(180, 80, 255, 0.25);
+  transition: all 0.2s;
+}
+
+.back-link:hover {
+  color: #b060f0;
+  border-color: rgba(180, 80, 255, 0.5);
+}
+
+.auth-card {
+  display: flex;
+  width: 100%;
+  max-width: 950px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(180, 80, 255, 0.2);
+  box-shadow: 0 0 80px rgba(120, 40, 220, 0.25);
+}
+
+/* Illustration */
+.auth-illustration {
+  flex: 1.1;
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+}
+
+.illus-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.illus-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    transparent 65%,
+    rgba(15, 5, 40, 0.95) 100%
+  );
+}
+
+/* Form Panel */
+.auth-form-panel {
+  flex: 1.1;
+  background: #160840;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.form-top { margin-bottom: 1.25rem; }
+
+.form-logo {
+  height: 40px;
+  width: auto;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.form-top h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 0.4rem;
+}
+
+.form-top p {
+  color: #7a6a9a;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.divider {
+  text-align: center;
+  color: #4a3a6a;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+/* Step Tabs */
+.step-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.step-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #3d2f5a;
+  cursor: default;
+  transition: color 0.2s;
+}
+
+.step-tab.active { color: #b060f0; }
+.step-tab.unlocked { cursor: pointer; color: #6b5a8a; }
+.step-tab.unlocked:hover { color: #b060f0; }
+
+.st-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(180, 80, 255, 0.1);
+  border: 1px solid rgba(180, 80, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+}
+
+.step-tab.active .st-dot {
+  background: rgba(180, 80, 255, 0.25);
+  border-color: rgba(180, 80, 255, 0.6);
+  color: #e040fb;
+}
+
+.st-sep { color: #2d1f4a; font-size: 0.6rem; }
+
+.error-banner {
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  font-size: 0.875rem;
+}
+
+.auth-form { display: flex; flex-direction: column; }
+.step-fields { display: flex; flex-direction: column; gap: 1rem; }
+.field { display: flex; flex-direction: column; gap: 0.35rem; }
+
+.field label {
+  font-size: 0.82rem;
+  color: #9d84c7;
+  font-weight: 700;
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.lbl-note { font-size: 0.68rem; color: #4a3a6a; font-weight: 400; }
+.field-note { font-size: 0.72rem; color: #4a3a6a; font-style: italic; }
+
+.input-wrap { position: relative; }
+
+.eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.eye-btn:hover { opacity: 1; }
+
+input[type="email"],
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background: rgba(8, 3, 25, 0.7);
+  border: 1px solid rgba(180, 80, 255, 0.2);
+  border-radius: 10px;
+  color: #e2d0f7;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.input-wrap input { padding-right: 2.75rem; }
+
+input:focus {
+  border-color: #7b1fd4;
+  box-shadow: 0 0 0 3px rgba(123, 31, 212, 0.15);
+}
+
+input::placeholder { color: #3d2860; }
+.field-error input { border-color: rgba(239, 68, 68, 0.5); }
+.field-hint { font-size: 0.75rem; color: #f87171; }
+
+/* Strength */
+.strength-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2px;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(180, 80, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.strength-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s, background 0.3s;
+}
+
+.strength-fill.weak   { background: #ef4444; }
+.strength-fill.fair   { background: #f59e0b; }
+.strength-fill.strong { background: #10b981; }
+
+.strength-txt { font-size: 0.7rem; font-weight: 700; }
+.strength-txt.weak   { color: #ef4444; }
+.strength-txt.fair   { color: #f59e0b; }
+.strength-txt.strong { color: #10b981; }
+
+/* Tags */
+.tag-box {
+  background: rgba(8, 3, 25, 0.7);
+  border: 1px solid rgba(180, 80, 255, 0.2);
+  border-radius: 10px;
+  padding: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-height: 44px;
+  transition: border-color 0.2s;
+}
+
+.tag-box:focus-within {
+  border-color: #7b1fd4;
+  box-shadow: 0 0 0 3px rgba(123, 31, 212, 0.15);
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  background: rgba(180, 80, 255, 0.15);
+  border: 1px solid rgba(180, 80, 255, 0.3);
+  color: #c084fc;
+  font-size: 0.75rem;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.tag button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+  opacity: 0.7;
+}
+
+.tag button:hover { opacity: 1; }
+
+.tag-input {
+  flex: 1;
+  min-width: 100px;
+  background: none !important;
+  border: none !important;
+  padding: 0.2rem 0.25rem !important;
+  outline: none;
+  box-shadow: none !important;
+  color: #e2d0f7;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.875rem;
+}
+
+/* Checkbox */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.83rem;
+  color: #6b5a8a;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.checkbox-label input {
+  width: 16px;
+  height: 16px;
+  accent-color: #7b1fd4;
+}
+
+.link { color: #b060f0; text-decoration: none; }
+.link:hover { text-decoration: underline; }
+
+.step2-btns { display: flex; gap: 0.75rem; }
+
+.back-btn {
+  padding: 0.75rem 1.25rem;
+  background: none;
+  border: 1px solid rgba(180, 80, 255, 0.25);
+  border-radius: 10px;
+  color: #6b5a8a;
+  cursor: pointer;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  border-color: rgba(180, 80, 255, 0.5);
+  color: #b060f0;
+}
+
+.flex1 { flex: 1; }
+
+.submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.825rem;
+  background: linear-gradient(135deg, #7b1fd4, #b060f0);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(123, 31, 212, 0.4);
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 30px rgba(123, 31, 212, 0.6);
+}
+
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.auth-switch {
+  text-align: center;
+  margin-top: 1.25rem;
+  color: #4a3a6a;
+  font-size: 0.875rem;
+}
+
+.switch-link {
+  color: #b060f0;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.switch-link:hover { color: #e040fb; }
+
+@media (max-width: 700px) {
+  .auth-card { flex-direction: column; }
+  .auth-illustration { min-height: 200px; max-height: 240px; }
+  .illus-overlay {
+    background: linear-gradient(
+      to bottom,
+      transparent 50%,
+      rgba(15, 5, 40, 0.95) 100%
+    );
+  }
+  .auth-form-panel { padding: 1.5rem; max-height: none; }
+}
+
+/* ═══════════════════════════════════════
+   ROLE SELECTION SCREEN
+═══════════════════════════════════════ */
+
+.auth-card.role-select-mode {
+  max-width: 820px;
+  display: block;
+}
+
+.role-select-panel {
+  width: 100%;
+  background: linear-gradient(160deg, #120a36 0%, #0d0526 60%, #0a0320 100%);
+  padding: 3rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+}
+
+.role-select-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 900; color: #fff;
+  text-shadow: 0 0 30px rgba(140,100,255,0.4);
+  margin: 0;
+}
+
+.role-select-sub {
+  color: #5e4e80;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem; font-weight: 500;
+  margin: 0;
+}
+
+.role-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.role-card {
+  position: relative;
+  background: rgba(20,8,55,0.8);
+  border: 1px solid rgba(180,80,255,0.2);
+  border-radius: 20px;
+  padding: 2rem 1.75rem;
+  display: flex; flex-direction: column; gap: 0.875rem;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-align: left;
+  overflow: hidden;
+}
+
+.role-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(180,80,255,0.45);
+  box-shadow: 0 20px 60px rgba(120,40,220,0.2);
+}
+
+.role-card__glow {
+  position: absolute; inset: 0; border-radius: 20px;
+  opacity: 0; transition: opacity 0.3s; pointer-events: none;
+}
+.role-card:hover .role-card__glow { opacity: 1; }
+.role-card__glow--green { box-shadow: inset 0 0 40px rgba(52,211,153,0.08); }
+.role-card__glow--pink  { box-shadow: inset 0 0 40px rgba(244,114,182,0.08); }
+
+.role-card__icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: rgba(52,211,153,0.12);
+  border: 1px solid rgba(52,211,153,0.3);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.role-card__icon svg { width: 24px; height: 24px; stroke: #34d399; }
+.role-card__icon--pink { background: rgba(244,114,182,0.12); border-color: rgba(244,114,182,0.3); }
+.role-card__icon--pink svg { stroke: #f472b6; }
+
+.role-card__tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.15em;
+  padding: 0.25rem 0.75rem; border-radius: 20px; width: fit-content;
+}
+.role-card__tag--green {
+  background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3);
+  color: #34d399;
+}
+.role-card__tag--pink {
+  background: rgba(244,114,182,0.12); border: 1px solid rgba(244,114,182,0.3);
+  color: #f472b6;
+}
+
+.role-card__name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem; font-weight: 900; color: #fff; margin: 0;
+}
+
+.role-card__desc {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.875rem; color: rgba(255,255,255,0.45);
+  line-height: 1.6; margin: 0;
+}
+
+.role-card__perks {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 0.4rem;
+}
+
+.role-card__perks li {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.82rem; font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  padding-left: 1.1rem; position: relative;
+}
+
+.role-card__perks li::before {
+  content: '◆';
+  position: absolute; left: 0;
+  font-size: 0.4rem; color: rgba(180,80,255,0.4);
+  top: 4px;
+}
+
+.role-card__btn {
+  margin-top: auto;
+  padding: 0.7rem 1.25rem;
+  border-radius: 10px; border: none; cursor: pointer;
+  font-family: 'Orbitron', sans-serif; font-size: 0.72rem;
+  font-weight: 700; letter-spacing: 0.08em; color: #fff;
+  transition: all 0.3s; width: 100%;
+}
+.role-card__btn--green {
+  background: linear-gradient(135deg, #059669, #34d399);
+  box-shadow: 0 4px 20px rgba(52,211,153,0.3);
+}
+.role-card__btn--pink {
+  background: linear-gradient(135deg, #be185d, #f472b6);
+  box-shadow: 0 4px 20px rgba(244,114,182,0.3);
+}
+.role-card__btn:hover { transform: translateY(-2px); filter: brightness(1.15); }
+
+/* ── Role badge on form ── */
+.role-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.3rem 0.875rem; border-radius: 20px; width: fit-content;
+  font-family: 'Orbitron', sans-serif; font-size: 0.62rem;
+  font-weight: 700; letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
+}
+.role-badge--green {
+  background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3); color: #34d399;
+}
+.role-badge--pink {
+  background: rgba(244,114,182,0.12); border: 1px solid rgba(244,114,182,0.3); color: #f472b6;
+}
+
+/* Change role button */
+.change-role-btn {
+  background: none; border: none; cursor: pointer;
+  color: #6a4890; font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 0;
+  transition: color 0.2s; margin-bottom: 0.75rem;
+  text-align: left;
+}
+.change-role-btn:hover { color: #b080e0; }
+
+@media (max-width: 640px) {
+  .role-cards { grid-template-columns: 1fr; }
+  .role-select-panel { padding: 2rem 1.5rem; }
+}
+
+
+/* ── Role Selector ── */
+.role-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.role-selector__label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.78rem; font-weight: 700;
+  color: #5a4080; letter-spacing: 0.08em;
+  text-transform: uppercase; text-align: center;
+  margin: 0;
+}
+
+/* Side by side cards */
+.role-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.role-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.1rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(140,60,220,0.18);
+  background: rgba(5,2,18,0.6);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.25s ease;
+  width: 100%;
+}
+
+.role-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(140,60,220,0.45);
+  background: rgba(8,3,25,0.85);
+}
+
+.role-card--freelancer:hover {
+  border-color: rgba(168,85,247,0.5);
+  box-shadow: 0 8px 24px rgba(168,85,247,0.12);
+}
+
+.role-card--commissioner:hover {
+  border-color: rgba(244,114,182,0.5);
+  box-shadow: 0 8px 24px rgba(244,114,182,0.12);
+}
+
+.role-card__icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.role-card--freelancer .role-card__icon {
+  background: rgba(168,85,247,0.15);
+  border: 1px solid rgba(168,85,247,0.3);
+  color: #c084fc;
+}
+
+.role-card--commissioner .role-card__icon {
+  background: rgba(244,114,182,0.12);
+  border: 1px solid rgba(244,114,182,0.3);
+  color: #f472b6;
+}
+
+.role-card__icon svg { width: 17px; height: 17px; }
+
+.role-card__body h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.82rem; font-weight: 700;
+  margin: 0 0 0.2rem;
+}
+
+.role-card--freelancer .role-card__body h3 { color: #d8b4fe; }
+.role-card--commissioner .role-card__body h3 { color: #fbb6ce; }
+
+.role-card__body p {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem; color: #4a3570;
+  font-weight: 500; margin: 0 0 0.5rem; line-height: 1.45;
+}
+
+.role-card__perks {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 0.25rem;
+}
+
+.role-card__perks li {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.72rem; font-weight: 600;
+  padding: 0.12rem 0.5rem;
+  border-radius: 8px;
+  color: #7a5caa;
+  background: rgba(120,40,210,0.08);
+  border: 1px solid rgba(120,40,210,0.12);
+}
+
+.role-card__arrow {
+  font-size: 0.9rem; color: #3a2858;
+  flex-shrink: 0; align-self: flex-end;
+  transition: color 0.2s, transform 0.2s;
+}
+.role-card:hover .role-card__arrow {
+  transform: translateX(3px);
+  color: #9060c0;
+}
+
+/* ── Role Indicator (after selection) ── */
+.role-indicator {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.role-indicator__badge {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.22rem 0.8rem; border-radius: 20px;
+}
+
+.badge--freelancer {
+  background: rgba(168,85,247,0.15);
+  border: 1px solid rgba(168,85,247,0.4);
+  color: #c084fc;
+}
+
+.badge--commissioner {
+  background: rgba(244,114,182,0.12);
+  border: 1px solid rgba(244,114,182,0.35);
+  color: #f472b6;
+}
+
+.role-indicator__change {
+  background: none; border: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem; font-weight: 700;
+  color: #4a3570; cursor: pointer;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  transition: color 0.2s;
+}
+.role-indicator__change:hover { color: #9060d0; }

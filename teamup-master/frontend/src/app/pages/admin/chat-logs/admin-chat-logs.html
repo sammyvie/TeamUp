@@ -1,0 +1,25 @@
+<div class="shell">
+  <app-admin-sidebar></app-admin-sidebar>
+  <admin-bg />
+
+  <div class="main-wrap">
+    <app-admin-header></app-admin-header>
+
+    <div class="content">
+      <h1 class="page-title">Chat Logs</h1>
+
+      <div class="chat-layout">
+        <app-party-list
+          [parties]="parties"
+          [selectedPartyId]="selectedParty.id"
+          (partySelected)="onPartySelect($event)">
+        </app-party-list>
+
+        <app-chat-window
+          [party]="selectedParty">
+        </app-chat-window>
+      </div>
+    </div>
+    <app-footer></app-footer>
+  </div>
+</div>

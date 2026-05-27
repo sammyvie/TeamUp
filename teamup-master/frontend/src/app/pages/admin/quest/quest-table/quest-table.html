@@ -1,0 +1,44 @@
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>QUEST NAME</th>
+        <th>CLIENT</th>
+        <th>ASSIGNED PARTY</th>
+        <th>STATUS</th>
+        <th>POSTED</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (quest of quests; track quest._id; let i = $index) {
+        <tr>
+          <td class="quest-name-cell">{{ quest.title }}</td>
+          
+          <td>{{ quest.commissioner?.fullName || 'System' }}</td>
+          
+          <td>
+            <span [class.unassigned]="!quest.party">
+              {{ quest.party?.name || 'No Party Assigned' }}
+            </span>
+          </td>
+          
+          <td>
+            <span class="status-badge" [class]="{
+              'status-pending':     quest.status === 'open',
+              'status-in-progress': quest.status === 'in_progress',
+              'status-completed':   quest.status === 'completed'
+            }">
+              {{ quest.status === 'in_progress' ? 'In Progress' : (quest.status | titlecase) }}
+            </span>
+          </td>
+
+          <td class="posted-cell">{{ quest.createdAt | date:'MMM d, y' }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="5" class="empty-state">No quests found in the archives.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

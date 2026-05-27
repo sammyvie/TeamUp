@@ -1,0 +1,41 @@
+@if (party) {
+  <div class="chat-window-wrapper">
+
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <div class="party-avatar">{{ party.avatar }}</div>
+        <div class="party-meta">
+          <h2 class="party-name">{{ party.name }}</h2>
+          <p class="party-members">Members: {{ party.members }}</p>
+        </div>
+      </div>
+      <button class="archive-btn">Archive Chat Log</button>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages-area">
+      <div class="date-divider">
+        <span class="divider-line"></span>
+        <span class="divider-label">{{ party.dateLabel }}</span>
+        <span class="divider-line"></span>
+      </div>
+
+      @for (msg of party.messages; track $index) {
+        <div class="message-row">
+          <div class="msg-avatar">{{ msg.avatar }}</div>
+          <div class="msg-content">
+            <div class="msg-bubble">
+              <span class="msg-sender">{{ msg.sender }}</span>
+              <p class="msg-text">{{ msg.text }}</p>
+            </div>
+            <span class="msg-time">{{ msg.time }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="chat-bottom-bar"></div>
+
+  </div>
+}

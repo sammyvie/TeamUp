@@ -1,0 +1,51 @@
+<div class="shell">
+  <admin-bg />
+  <app-admin-sidebar></app-admin-sidebar>
+  
+  <div class="main-wrap">
+    <app-admin-header></app-admin-header>
+    
+    <div class="content">
+      <div>
+        <div class="page-eyebrow">
+          <span class="page-ping"></span> QUEST MANAGEMENT SYSTEM
+        </div>
+        <h1 class="page-title">Quest Board</h1>
+      </div>
+
+      <div class="stat-grid">
+        @for (stat of stats(); track stat.label) {
+          <div class="stat-card">
+            <div class="stat-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                @if (stat.label === 'Active Quests') { 
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/> 
+                }
+                @if (stat.label === 'Total Quests') { 
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/> 
+                }
+                @if (stat.label === 'Completed Quests') { 
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/> 
+                }
+              </svg>
+            </div>
+            <div>
+              <p class="stat-card__label">{{ stat.label }}</p>
+              <p class="stat-card__value">{{ stat.value }}</p>
+            </div>
+            <div class="stat-card__glow"></div>
+          </div>
+        }
+      </div>
+
+      <app-quest-filter 
+        (searchChange)="onSearchChange($event)" 
+        (statusChange)="onStatusChange($event)">
+      </app-quest-filter>
+
+      <app-quest-table [quests]="quests()"></app-quest-table>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</div>

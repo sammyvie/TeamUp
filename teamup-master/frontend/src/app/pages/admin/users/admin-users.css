@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap");
+
+:host { display: block; min-height: 100vh; background: #06000f; }
+.shell { display: flex; min-height: 100vh; position: relative; }
+.main-wrap { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; position: relative; z-index: 1; }
+.content { padding: 1.5rem 2rem 4rem; flex: 1; display: flex; flex-direction: column; gap: 1.5rem; }
+
+.page-eyebrow { display: flex; align-items: center; gap: .5rem; font-family: "Orbitron",sans-serif; font-size: .55rem; font-weight: 700; letter-spacing: .22em; color: rgba(244,114,182,.65); margin-bottom: .3rem; }
+.page-ping { width: 6px; height: 6px; border-radius: 50%; background: #34d399; box-shadow: 0 0 6px rgba(52,211,153,.9); animation: blink 1.8s ease-in-out infinite; display: inline-block; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.page-title { font-family: "Orbitron",sans-serif; font-size: 1.5rem; font-weight: 900; color: #fff; margin: 0; text-shadow: 0 0 30px rgba(244,114,182,.35); }
+
+.stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+.stat-card { background: linear-gradient(135deg, rgba(22,4,58,.97), rgba(14,3,38,.93)); border: 1px solid rgba(168,85,247,.25); border-radius: 16px; padding: 1.25rem 1.4rem; display: flex; align-items: center; gap: 1rem; position: relative; overflow: hidden; cursor: default; transition: transform .3s cubic-bezier(.175,.885,.32,1.275), box-shadow .3s; box-shadow: 0 4px 20px rgba(0,0,0,.45); animation: cardIn .4s ease both; }
+@keyframes cardIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.stat-card:nth-child(2){animation-delay:.08s}.stat-card:nth-child(3){animation-delay:.16s}
+.stat-card:hover { transform: translateY(-6px); box-shadow: 0 0 28px rgba(244,114,182,.3), 0 0 56px rgba(168,85,247,.15); border-color: rgba(244,114,182,.45); }
+.stat-card__icon { width: 50px; height: 50px; border-radius: 13px; flex-shrink: 0; background: linear-gradient(135deg,rgba(124,58,237,.18),rgba(168,85,247,.08)); border: 1px solid rgba(168,85,247,.25); display: flex; align-items: center; justify-content: center; }
+.stat-card__icon svg { width: 22px; height: 22px; stroke: #c084fc; }
+.stat-card__label { font-family: "Orbitron",sans-serif; font-size: .55rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: rgba(200,160,255,.5); margin: 0 0 4px; }
+.stat-card__value { font-family: "Orbitron",sans-serif; font-size: 1.5rem; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(244,114,182,.3); margin: 0; }
+.stat-card__glow { position: absolute; bottom: -20px; right: -20px; width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle,rgba(168,85,247,.14) 0%,transparent 70%); pointer-events: none; animation: glow 3s ease-in-out infinite; }
+@keyframes glow { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }

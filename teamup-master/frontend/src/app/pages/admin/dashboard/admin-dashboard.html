@@ -1,0 +1,137 @@
+<div class="shell">
+  <admin-bg />
+  <app-admin-sidebar></app-admin-sidebar>
+  <div class="main-wrap">
+    <app-admin-header></app-admin-header>
+    <div class="content">
+
+      <div class="welcome-banner">
+        <div class="wb-scanlines"></div>
+        <div>
+          <div class="wb-eyebrow"><span class="wb-ping"></span> ADMIN PORTAL — SYSTEM ONLINE</div>
+          <h1 class="wb-title">Welcome back, <span class="wb-accent">Admin</span></h1>
+          <p class="wb-sub">All systems operational. Monitor your platform intelligence below.</p>
+        </div>
+        <div class="wb-hud">
+          <div class="hud-ring"></div>
+          <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        @for (stat of stats(); track stat.label) {
+          <div class="stat-card">
+            <div class="stat-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                @if (stat.label === 'Total Users') {
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                }
+                @if (stat.label === 'Total Freelancers') {
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                }
+                @if (stat.label === 'Total Clients') {
+                  <rect x="2" y="7" width="20" height="14" rx="2"/>
+                  <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+                }
+                @if (stat.label === 'Total Quests') {
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                }
+              </svg>
+            </div>
+            <div>
+              <p class="stat-card__label">{{ stat.label }}</p>
+              <p class="stat-card__value">{{ stat.value }}</p>
+            </div>
+            <div class="stat-card__glow"></div>
+          </div>
+        }
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-card__top">
+            <span class="chart-dot"></span>
+            <span class="chart-title">User Growth</span>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="dot" style="background:#a855f7"></span>Growth Log</span>
+            </div>
+          </div>
+          <div class="chart-wrap"><canvas id="growthChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card__top">
+            <span class="chart-dot chart-dot--pink"></span>
+            <span class="chart-title">Quest Distribution</span>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="dot" style="background:#f472b6"></span>Live Quests</span>
+            </div>
+          </div>
+          <div class="chart-wrap"><canvas id="questChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="bottom-row">
+        <div class="mini-stats">
+          @for (mini of miniStats(); track mini.label) {
+            <div class="mini-card">
+              <div class="mini-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  @if (mini.label === 'Active Parties') {
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  }
+                  @if (mini.label === 'Quest in Progress') {
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                  }
+                  @if (mini.label === 'Completed Quest') {
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                  }
+                </svg>
+              </div>
+              <div>
+                <p class="mini-card__label">{{ mini.label }}</p>
+                <p class="mini-card__value">{{ mini.value }}</p>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="activities-card">
+          <div class="activities-header">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            System Status Log
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Origin</th><th>Transmission</th><th>Timestamp</th></tr>
+              </thead>
+              <tbody>
+                @for (act of activities; track act.user) {
+                  <tr>
+                    <td>
+                      <div class="user-cell">
+                        <div class="user-avatar">{{ act.initials }}</div>
+                        <span>{{ act.user }}</span>
+                      </div>
+                    </td>
+                    <td class="activity-cell">{{ act.activity }}</td>
+                    <td class="date-cell">{{ act.date }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <app-footer></app-footer>
+  </div>
+</div>

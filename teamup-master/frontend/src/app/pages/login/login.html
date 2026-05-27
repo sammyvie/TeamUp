@@ -1,0 +1,98 @@
+<div class="auth-page">
+  <a routerLink="/" class="back-link">← Back to Home</a>
+
+  <div class="auth-card">
+
+    <!-- ── LEFT: Pixel art illustration ── -->
+    <div class="auth-illustration">
+      <img
+        src="https://i.postimg.cc/1XzsmGz7/hero_login.png"
+        alt="Login illustration"
+        class="illus-img"
+      />
+      <div class="illus-overlay"></div>
+    </div>
+
+    <!-- ── RIGHT: Form ── -->
+    <div class="auth-form-panel">
+      <div class="form-top">
+        <img
+          src="https://i.postimg.cc/VJ15DJWZ/Team-Up.png"
+          alt="TeamUP"
+          class="form-logo"
+        />
+        <h1>Welcome Back</h1>
+        <p>Sign in to continue building, collaborating, and leveling up with your team.</p>
+      </div>
+
+      <div class="divider">— or sign in with Email —</div>
+
+      @if (apiError()) {
+        <div class="error-banner">⚠️ {{ apiError() }}</div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="auth-form">
+
+        <!-- Email -->
+        <div class="field" [class.field-error]="isInvalid('email')">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="mail@example.com"
+            autocomplete="email"
+          />
+          @if (isInvalid('email')) {
+            <span class="field-hint">{{ getError('email') }}</span>
+          }
+        </div>
+
+        <!-- Password -->
+        <div class="field" [class.field-error]="isInvalid('password')">
+          <div class="label-row">
+            <label for="password">Password</label>
+            <a href="#" class="forgot">Forgot Password?</a>
+          </div>
+          <div class="input-wrap">
+            <input
+              id="password"
+              [type]="showPass() ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="••••••••"
+              autocomplete="current-password"
+            />
+            <button type="button" class="eye-btn" (click)="showPass.set(!showPass())">
+              {{ showPass() ? '🙈' : '👁️' }}
+            </button>
+          </div>
+          @if (isInvalid('password')) {
+            <span class="field-hint">{{ getError('password') }}</span>
+          }
+        </div>
+
+        <!-- Remember Me -->
+        <label class="checkbox-label">
+          <input type="checkbox" formControlName="rememberMe" />
+          <span>Remember me</span>
+        </label>
+
+        <!-- Submit -->
+        <button type="submit" class="submit-btn" [disabled]="isLoading()">
+          @if (isLoading()) {
+            <span class="spinner"></span> Signing in...
+          } @else {
+            Login
+          }
+        </button>
+
+      </form>
+
+      <p class="auth-switch">
+        Not Registered Yet?
+        <a routerLink="/register" class="switch-link">Create an account</a>
+      </p>
+    </div>
+
+  </div>
+</div>

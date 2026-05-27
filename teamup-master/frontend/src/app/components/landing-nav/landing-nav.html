@@ -1,0 +1,45 @@
+<nav class="landing-nav">
+
+  <!-- Scanline texture -->
+  <div class="nav-scanlines"></div>
+
+  <div class="nav-container">
+
+    <!-- LOGO -->
+    <div class="nav-logo" routerLink="/">
+      <div class="nav-logo__hud">
+        <span class="hud-dot hud-dot--ping"></span>
+      </div>
+      <img src="https://i.postimg.cc/VJ15DJWZ/Team-Up.png" alt="TeamUP! Logo" />
+    </div>
+
+    <!-- CENTER: status ticker -->
+    <div class="nav-status">
+      <span class="nav-status__dot"></span>
+      <span class="nav-status__text">GUILD ONLINE</span>
+      <span class="nav-status__divider">◆</span>
+      <span class="nav-status__text">500+ ADVENTURERS</span>
+      <span class="nav-status__divider">◆</span>
+      <span class="nav-status__text">QUESTS OPEN</span>
+    </div>
+
+    <!-- RIGHT: actions -->
+    <div class="nav-actions">
+      <button class="btn-ghost" routerLink="/login">
+        <span class="btn-ghost__bracket">[</span>
+        LOG IN
+        <span class="btn-ghost__bracket">]</span>
+      </button>
+      <button class="btn-primary" routerLink="/register">
+        <svg class="btn-primary__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        JOIN PARTY
+        <span class="btn-primary__shine"></span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Bottom glow line -->
+  <div class="nav-glow-line"></div>
+
+</nav>

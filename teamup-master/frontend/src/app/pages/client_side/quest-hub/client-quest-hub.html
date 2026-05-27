@@ -1,0 +1,190 @@
+<div class="page-wrapper">
+  <app-navbar />
+  <client-bg />
+
+  <main class="content">
+
+    <div class="page-header">
+      <h1 class="page-title">Quest Hub</h1>
+      <button class="create-btn" (click)="openCreateModal()">+ Create Quest</button>
+    </div>
+
+    @if (showCreateModal()) {
+      <div class="modal-overlay" (click)="closeCreateModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()" [formGroup]="questForm">
+          <div class="modal-header">
+            <h2 class="modal-title">
+              // {{ isEditMode() ? 'MODIFY QUEST' : (selectedQuest() ? 'VIEW BRIEFING' : 'DEPLOY NEW QUEST') }}
+            </h2>
+            <button class="close-icon" (click)="closeCreateModal()">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <div class="input-group">
+              <label>Objective Title</label>
+              <input type="text" formControlName="title" placeholder="e.g., Neural Network Optimization" />
+            </div>
+
+            <div class="input-group">
+              <label>Tech Stack (Comma separated)</label>
+              <input type="text" formControlName="techStack" placeholder="Angular, Node.js, Python" />
+            </div>
+
+            <div class="form-section-divider">// REPOSITORY CONFIGURATION</div>
+            <div class="row">
+              <div class="input-group">
+                <label>GitHub Owner</label>
+                <input type="text" formControlName="githubRepoOwner" placeholder="e.g., Octocat" />
+              </div>
+              
+              <div class="input-group">
+                <label>Repository Name</label>
+                <input type="text" formControlName="githubRepoName" placeholder="e.g., neural-api" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-group">
+                <label>Deadline</label>
+                <input type="date" formControlName="deadline" />
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Briefing / Description</label>
+              <textarea formControlName="description" rows="4" placeholder="Detail the mission parameters..."></textarea>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn-secondary" (click)="closeCreateModal()">
+              {{ isEditMode() || !selectedQuest() ? 'Abort' : 'Close' }}
+            </button>
+            
+            @if (!selectedQuest() || isEditMode()) {
+              <button class="btn-primary" [disabled]="questForm.invalid" (click)="submitQuest()">
+                {{ isEditMode() ? 'Update Records' : 'Deploy Quest' }}
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <div class="filter-bar">
+      <div class="filter-tabs">
+        <button class="tab-btn" [class.active]="activeTab() === 'all'" (click)="setTab('all')">All Quests</button>
+        <button class="tab-btn" [class.active]="activeTab() === 'progress'" (click)="setTab('progress')">In Progress</button>
+        <button class="tab-btn" [class.active]="activeTab() === 'completed'" (click)="setTab('completed')">Completed</button>
+        <button class="tab-btn" [class.active]="activeTab() === 'open'" (click)="setTab('open')">Open/Available</button>
+      </div>
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" class="search-input" placeholder="Search quests..." 
+               [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" />
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      @for (stat of stats(); track stat.label) {
+        <div class="stat-card">
+          <div class="stat-card__icon">
+            @if (stat.icon === 'grid') {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+              </svg>
+            }
+            @if (stat.icon === 'clock') {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
+              </svg>
+            }
+            @if (stat.icon === 'check') {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            }
+            @if (stat.icon === 'unlock') {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+              </svg>
+            }
+          </div>
+          <div class="stat-info">
+            <p class="stat-label">{{ stat.label }}</p>
+            <h3 class="stat-value">{{ stat.value }}</h3>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="quests-card">
+      <h2 class="quests-title">
+        My Quests
+        <span>[ {{ filteredQuests().length }} RECORDS ]</span>
+      </h2>
+      <table class="quests-table">
+        <thead>
+          <tr>
+            <th>Quest Details</th>
+            <th>Tech Stack</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th>Party</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (quest of filteredQuests(); track quest._id) {
+            <tr>
+              <td>
+                <div class="quest-details">
+                  <span class="quest-name">{{ quest.title }}</span>
+                  <span class="quest-description">{{ quest.description }}</span>
+                </div>
+              </td>
+              <td>
+                <div class="tech-stack-list">
+                  @for (tech of quest.techStack; track tech) {
+                    <span class="tech-tag">{{ tech }} </span>
+                  }
+                </div>
+              </td>
+              <td class="deadline-cell">
+                <span>{{ quest.deadline | date:'mediumDate' }}</span>
+                <span class="deadline-sub">{{ quest.status === 'completed' ? 'Finished' : 'Remaining' }}</span>
+              </td>
+              <td>
+                <span class="status-badge" [ngClass]="'status-' + quest.status.replace('_', '-')">
+                  {{ quest.status | titlecase }}
+                </span>
+              </td>
+              <td class="party-cell">
+                <span>{{ partyNames()[quest.party!] || (quest.party ? 'Loading...' : 'Unassigned') }}</span>
+                @if (quest.githubRepo?.owner) {
+                  <span class="repo-sub">Repo: {{ quest.githubRepo.name }}</span>
+                }
+              </td>
+              <td class="action-cell">
+                <div class="action-buttons">
+                  <button class="action-btn view-btn" (click)="openViewModal(quest)">View</button>
+                  <button class="action-btn edit-btn" (click)="openEditModal(quest)">Edit</button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 2rem; color: #888;">
+                No quests found matching your criteria.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</div>

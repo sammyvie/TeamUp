@@ -1,0 +1,126 @@
+<div class="admin-login-page">
+
+  <!-- Grid background -->
+  <div class="admin-login-page__grid"></div>
+  <div class="admin-login-page__glow"></div>
+
+  <a routerLink="/" class="back-link">← Back to Home</a>
+
+  <div class="admin-card">
+
+    <!-- Top HUD bar -->
+    <div class="admin-card__hud">
+      <div class="hud-dots">
+        <span class="hud-dot hud-dot--red"></span>
+        <span class="hud-dot hud-dot--yellow"></span>
+        <span class="hud-dot hud-dot--green"></span>
+      </div>
+      <span class="hud-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        ADMIN PORTAL
+      </span>
+      <span class="hud-status">
+        <span class="hud-ping"></span> SECURE
+      </span>
+    </div>
+
+    <!-- Logo + title -->
+    <div class="admin-card__top">
+      <img src="https://i.postimg.cc/VJ15DJWZ/Team-Up.png" alt="TeamUP" class="admin-logo" />
+      <h1>Admin Access</h1>
+      <p>Restricted portal. Authorized personnel only.</p>
+    </div>
+
+    @if (apiError()) {
+      <div class="error-banner">⚠️ {{ apiError() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="admin-form">
+
+      <!-- Email -->
+      <div class="field" [class.field-error]="isInvalid('email')">
+        <label>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          Admin Email
+        </label>
+        <input type="email" formControlName="email"
+               placeholder="admin@teamup.com" autocomplete="email" />
+        @if (isInvalid('email')) {
+          <span class="field-hint">Valid email is required.</span>
+        }
+      </div>
+
+      <!-- Password -->
+      <div class="field" [class.field-error]="isInvalid('password')">
+        <label>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Password
+        </label>
+        <div class="input-wrap">
+          <input [type]="showPass() ? 'text' : 'password'"
+                 formControlName="password"
+                 placeholder="••••••••"
+                 autocomplete="current-password" />
+          <button type="button" class="eye-btn" (click)="showPass.set(!showPass())">
+            {{ showPass() ? '🙈' : '👁️' }}
+          </button>
+        </div>
+        @if (isInvalid('password')) {
+          <span class="field-hint">Password is required.</span>
+        }
+      </div>
+
+      <!-- Admin Secret Code -->
+      <div class="field" [class.field-error]="isInvalid('adminSecret')">
+        <label>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          Admin Access Code
+        </label>
+        <div class="input-wrap">
+          <input [type]="showSecret() ? 'text' : 'password'"
+                 formControlName="adminSecret"
+                 placeholder="Enter your admin access code"
+                 autocomplete="off" />
+          <button type="button" class="eye-btn" (click)="showSecret.set(!showSecret())">
+            {{ showSecret() ? '🙈' : '👁️' }}
+          </button>
+        </div>
+        @if (isInvalid('adminSecret')) {
+          <span class="field-hint">Access code is required.</span>
+        }
+        <span class="field-note">Contact your system administrator for the access code.</span>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="submit-btn" [disabled]="isLoading()">
+        @if (isLoading()) {
+          <span class="spinner"></span> Authenticating...
+        } @else {
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+            <polyline points="10 17 15 12 10 7"/>
+            <line x1="15" y1="12" x2="3" y2="12"/>
+          </svg>
+          Access Admin Portal
+        }
+      </button>
+
+    </form>
+
+    <p class="admin-switch">
+      Not an admin? <a routerLink="/login" class="switch-link">Regular Login</a>
+    </p>
+
+  </div>
+</div>

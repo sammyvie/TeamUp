@@ -1,0 +1,56 @@
+<nav class="db-nav">
+  <div class="db-nav__scanlines"></div>
+
+  <div class="db-nav__container">
+
+    <!-- Logo — links to role's dashboard root -->
+    <a class="db-nav__logo" [routerLink]="navLinks()[0].path">
+      <div class="db-nav__logo-hud">
+        <span class="db-nav__ping"></span>
+        <span class="db-nav__sys">TEAMUP.SYS</span>
+      </div>
+      <img src="https://i.postimg.cc/VJ15DJWZ/Team-Up.png" alt="TeamUP" />
+    </a>
+
+    <!-- Dynamic nav links based on role -->
+    <div class="db-nav__links">
+      @for (link of navLinks(); track link.path) {
+        <a
+          class="db-nav__link"
+          [routerLink]="link.path"
+          routerLinkActive="db-nav__link--active"
+          [routerLinkActiveOptions]="{ exact: link.path === navLinks()[0].path }"
+        >
+          {{ link.label }}
+        </a>
+      }
+    </div>
+
+    <!-- User info + logout -->
+    <div class="db-nav__right">
+      <div class="db-nav__user">
+        <!-- Initials avatar — no avatar field on User model -->
+        <div class="db-nav__avatar">
+          <div class="db-nav__avatar-initials">
+            {{ (user()?.fullName || 'A').charAt(0).toUpperCase() }}
+          </div>
+        </div>
+        <div class="db-nav__user-info">
+          <span class="db-nav__user-name">{{ user()?.fullName || 'Adventurer' }}</span>
+          <span class="db-nav__user-rank">{{ user()?.role || 'Apprentice' }}</span>
+        </div>
+      </div>
+      <button class="db-nav__logout" (click)="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Logout
+      </button>
+    </div>
+
+  </div>
+
+  <div class="db-nav__glow-line"></div>
+</nav>

@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+:host { display: block; }
+
+.db-nav {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  z-index: 9999;
+  background: linear-gradient(to bottom, rgba(8,2,22,0.97), rgba(10,3,28,0.88));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(168,85,247,0.15);
+  overflow: hidden;
+}
+
+.db-nav__scanlines {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
+}
+
+.db-nav__glow-line {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(244,114,182,0.5) 30%, rgba(139,92,246,0.8) 50%, rgba(244,114,182,0.5) 70%, transparent 100%);
+  animation: navGlow 3s ease-in-out infinite;
+}
+@keyframes navGlow { 0%,100%{opacity:.6} 50%{opacity:1} }
+
+.db-nav__container {
+  position: relative; z-index: 1;
+  max-width: 1400px; margin: 0 auto;
+  padding: 0 2rem; height: 62px;
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+}
+
+/* ── Logo ── */
+.db-nav__logo {
+  display: flex; flex-direction: column; gap: 2px;
+  cursor: pointer; flex-shrink: 0; text-decoration: none;
+}
+.db-nav__logo-hud { display: flex; align-items: center; gap: 5px; }
+.db-nav__ping {
+  display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+  background: #34d399; box-shadow: 0 0 6px rgba(52,211,153,0.8);
+  animation: ping 2s ease-in-out infinite; flex-shrink: 0;
+}
+@keyframes ping { 0%,100%{opacity:1} 50%{opacity:.5} }
+.db-nav__sys {
+  font-family: 'Orbitron', sans-serif; font-size: 0.45rem; font-weight: 700;
+  letter-spacing: .18em; color: rgba(52,211,153,0.7); text-transform: uppercase;
+}
+.db-nav__logo img {
+  height: 32px; width: auto;
+  filter: drop-shadow(0 0 8px rgba(168,85,247,0.4));
+  transition: filter .3s, transform .3s;
+}
+.db-nav__logo:hover img {
+  filter: drop-shadow(0 0 14px rgba(244,114,182,0.7));
+  transform: scale(1.04);
+}
+
+/* ── Nav links ── */
+.db-nav__links {
+  display: flex; align-items: center; gap: 0.25rem;
+}
+
+.db-nav__link {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.42rem 0.9rem;
+  border-radius: 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem; font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(180,140,255,0.55);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all .22s ease;
+  position: relative;
+}
+.db-nav__link svg {
+  width: 14px; height: 14px; flex-shrink: 0;
+  stroke: currentColor; transition: stroke .22s;
+}
+.db-nav__link:hover {
+  color: #d8b4fe;
+  background: rgba(139,92,246,0.1);
+  border-color: rgba(139,92,246,0.25);
+}
+.db-nav__link--active {
+  color: #f472b6 !important;
+  background: rgba(244,114,182,0.1) !important;
+  border-color: rgba(244,114,182,0.3) !important;
+  box-shadow: 0 0 12px rgba(244,114,182,0.15);
+}
+.db-nav__link--active svg { stroke: #f472b6; }
+
+/* ── Right: user + logout ── */
+.db-nav__right {
+  display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0;
+}
+
+.db-nav__user {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(139,92,246,0.08);
+  border: 1px solid rgba(139,92,246,0.2);
+  border-radius: 10px;
+}
+
+/* ── Avatar — initials based ── */
+.db-nav__avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1.5px solid rgba(244,114,182,0.5);
+  flex-shrink: 0; overflow: hidden;
+}
+
+.db-nav__avatar-initials {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #f472b6);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem; font-weight: 700;
+}
+
+.db-nav__user-info { display: flex; flex-direction: column; gap: 1px; }
+.db-nav__user-name {
+  font-family: 'Rajdhani', sans-serif; font-size: 0.82rem; font-weight: 700;
+  color: #e2d0f7; line-height: 1;
+}
+.db-nav__user-rank {
+  font-family: 'Orbitron', sans-serif; font-size: 0.45rem; font-weight: 700;
+  letter-spacing: .12em; color: #f472b6; text-transform: uppercase;
+}
+
+.db-nav__logout {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.42rem 0.85rem;
+  background: transparent;
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 8px;
+  color: rgba(239,68,68,0.6);
+  font-family: 'Rajdhani', sans-serif; font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer; transition: all .22s;
+}
+.db-nav__logout svg { width: 13px; height: 13px; flex-shrink: 0; }
+.db-nav__logout:hover {
+  background: rgba(239,68,68,0.1);
+  border-color: rgba(239,68,68,0.5);
+  color: #f87171;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .db-nav__link { font-size: 0.78rem; padding: 0.4rem 0.7rem; }
+}
+@media (max-width: 900px) {
+  .db-nav__user-info { display: none; }
+}
+@media (max-width: 768px) {
+  .db-nav__container { padding: 0 1rem; }
+  .db-nav__links { gap: 0; }
+  .db-nav__link { padding: 0.4rem 0.55rem; font-size: 0; }
+  .db-nav__link svg { width: 16px; height: 16px; }
+  .db-nav__logout { padding: 0.4rem 0.55rem; }
+}

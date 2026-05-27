@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap');
+:host { display: block; height: 100%; }
+.party-list-wrapper { background: linear-gradient(180deg, rgba(12,2,32,.98), rgba(8,2,22,.99)); border-right: 1px solid rgba(244,114,182,.12); display: flex; flex-direction: column; height: 100%; }
+.search-box { position: relative; padding: .875rem; background: rgba(0,0,0,.25); border-bottom: 1px solid rgba(244,114,182,.08); }
+.search-icon { position: absolute; left: 1.5rem; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: rgba(244,114,182,.4); pointer-events: none; }
+.search-input { width: 100%; padding: .6rem .75rem .6rem 2.2rem; background: rgba(244,114,182,.07); border: 1px solid rgba(244,114,182,.15); border-radius: 8px; color: #e2d0f7; font-family: 'Rajdhani',sans-serif; font-size: .85rem; outline: none; box-sizing: border-box; transition: border-color .2s; }
+.search-input:focus { border-color: rgba(244,114,182,.4); }
+.search-input::placeholder { color: rgba(244,114,182,.3); }
+.party-items { flex: 1; overflow-y: auto; }
+.party-item { display: flex; align-items: flex-start; gap: .75rem; padding: .875rem 1rem; cursor: pointer; border-bottom: 1px solid rgba(244,114,182,.06); transition: all .2s; animation: pIn .3s ease both; }
+@keyframes pIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:translateX(0)} }
+.party-item:hover { background: rgba(244,114,182,.06); }
+.party-item.active { background: linear-gradient(90deg,rgba(244,114,182,.12),rgba(168,85,247,.06)); border-left: 3px solid #f472b6; }
+.party-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg,rgba(124,58,237,.35),rgba(244,114,182,.25)); border: 1px solid rgba(244,114,182,.25); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.party-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.party-name { font-family: 'Orbitron',sans-serif; font-size: .75rem; font-weight: 700; color: #e2d0f7; }
+.party-item.active .party-name { color: #f9a8d4; }
+.party-msg-row { display: flex; justify-content: space-between; align-items: center; gap: .5rem; }
+.party-last-msg { font-family: 'Rajdhani',sans-serif; font-size: .76rem; color: rgba(200,160,255,.45); font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
+.party-time { font-family: 'Rajdhani',sans-serif; font-size: .68rem; color: rgba(244,114,182,.45); white-space: nowrap; }

@@ -1,0 +1,127 @@
+<div class="page-wrapper">
+
+  <app-navbar />
+  <freelancer-bg />
+
+  <main class="content">
+    <div class="profile-layout">
+
+      <div class="left-panel">
+        <div class="avatar-section">
+          <div class="profile-avatar" [ngClass]="role() === 'partyMaster' ? 'master' : ''">
+            <img src="images/david-avatar.png" alt="Avatar" onerror="this.style.display='none'" />
+            <svg class="avatar-fallback" viewBox="0 0 24 24">
+              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+            </svg>
+          </div>
+
+          <h2 class="profile-name">{{ name() }}</h2>
+
+          <div class="role-chip" [ngClass]="role() === 'partyMaster' ? 'master' : 'apprentice'">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            {{ role() === 'partyMaster' ? 'Party Master' : 'Apprentice' }}
+          </div>
+
+          <div class="member-since">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            Member Since: {{ memberSince() }}
+          </div>
+
+          <div class="current-formation-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Party: {{ currentParty()?.name || 'Unassigned' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="right-panel">
+
+        <div class="stat-cards">
+          <div class="stat-card" [ngClass]="role() === 'partyMaster' ? 'master' : ''">
+            <div class="stat-icon" [ngClass]="role() === 'partyMaster' ? 'gold' : ''">
+              <svg viewBox="0 0 24 24">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+            </div>
+            <div>
+              <p class="stat-label">XP</p>
+              <h3 class="stat-value" [ngClass]="role() === 'partyMaster' ? 'gold' : ''">{{ exp() }}</h3>
+            </div>
+          </div>
+
+          <div class="stat-card" [ngClass]="role() === 'partyMaster' ? 'master' : ''">
+            <div class="stat-icon" [ngClass]="role() === 'partyMaster' ? 'gold' : 'pink'">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="stat-label">Position</p>
+              <h3 class="stat-value" [ngClass]="role() === 'partyMaster' ? 'gold' : 'purple'">
+                {{ role() === 'partyMaster' ? 'Party Master' : 'Apprentice' }}
+              </h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
+              </svg>
+            </div>
+            <div>
+              <p class="stat-label">Level</p>
+              <h3 class="stat-value green">{{ level() }}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h3 class="info-title">Profile Details</h3>
+          <div class="info-list">
+            <div class="info-item">
+              <div class="info-icon pink"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <span>{{ email() }}</span>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.45-.45c.576-.576 1.4-.787 2.11-.45.907.339 1.85.573 2.81.7A2 2 0 0 1 21 18z"/></svg></div>
+              <span>{{ phonenum() }}</span>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <span>{{ location() }}</span>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              </div>
+              <span>GitHub: {{ githubname() }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h3 class="info-title">Professional Information</h3>
+          <div class="info-list">
+            <div class="info-item">
+              <div class="info-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+              <span>Primary Skills: {{ primaryskills() }}</span>
+            </div>
+            <div class="info-item">
+              <div class="info-icon blue"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+              <span>Tech Stack: {{ techstack() }}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>

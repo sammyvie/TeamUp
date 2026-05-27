@@ -1,0 +1,108 @@
+<div class="page-wrapper">
+  <app-navbar />
+  <freelancer-bg />
+
+  <main class="content">
+    <h1 class="page-title">Available Quests</h1>
+
+    <div class="filter-bar">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" class="search-input" placeholder="Search by title or client..."
+          [value]="searchTerm()" (input)="onSearchChange($any($event.target).value)" />
+      </div>
+
+      <div class="filter-dropdowns">
+        <select class="filter-select" [value]="selectedSkill()" (change)="onSkillChange($any($event.target).value)">
+          <option value="">Skills ▾</option>
+          <option value="Angular">Angular</option>
+          <option value="React">React</option>
+          <option value="Node.js">Node.js</option>
+          <option value="Tailwind">Tailwind</option>
+        </select>
+
+        <select class="filter-select" [value]="selectedDifficulty()" (change)="onDifficultyChange($any($event.target).value)">
+          <option value="">Difficulty ▾</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="quest-list">
+      @for (quest of filteredQuests(); track quest._id) {
+        <div class="quest-card">
+          <div class="quest-icon">
+            <div class="quest-icon-fallback">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+          </div>
+          
+          <div class="quest-info">
+            <h3 class="quest-name">{{ quest.title }}</h3>
+            <p class="quest-client">{{ (typeof quest.commissioner === 'object') ? quest.commissioner.fullName : 'Guild Client' }}</p>
+            
+            <div class="quest-meta">
+              <div class="tech-stack">
+                @for (tech of quest.techStack; track tech) {
+                  <span class="tech-tag">{{ tech }} </span>
+                }
+              </div>
+              <span class="separator">•</span>
+              <span class="deadline">Ends: {{ quest.deadline | date:'MMM d, y' }}</span>
+            </div>
+          </div>
+          
+          <button class="accept-btn" 
+                  [disabled]="quest.status !== 'open' || !canAcceptQuest()"
+                  (click)="acceptQuest(quest._id)">
+            
+            @if (quest.status !== 'open') {
+              Closed
+            } @else if (user()?.role === 'apprentice') {
+              Master Only
+            } @else if (!user()?.currentParty) {
+              Need Party
+            } @else if (userParty()?.activeQuest) {
+              Party Busy
+            } @else {
+              Accept Quest
+            }
+            
+          </button>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <p>No quests found in the current bulletin.</p>
+        </div>
+      }
+    </div>
+
+    @if (recommendedQuests().length > 0) {
+      <div class="recommended-section">
+        <h2 class="recommended-title">Recommended for You</h2>
+        <div class="quest-list secondary">
+          @for (quest of recommendedQuests(); track quest._id) {
+            <div class="quest-card mini">
+              <div class="quest-info">
+                <h4 class="quest-name">{{ quest.title }}</h4>
+                <p class="quest-meta">{{ quest.techStack.join(', ') }}</p>
+              </div>
+              <button class="accept-btn small" 
+                      [disabled]="!canAcceptQuest()"
+                      (click)="acceptQuest(quest._id)">
+                {{ user()?.role === 'apprentice' ? 'Lock' : 'Accept' }}
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+  </main>
+</div>

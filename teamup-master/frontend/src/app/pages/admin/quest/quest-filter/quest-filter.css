@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap");
+
+:host { display: block; }
+
+.filter-container {
+  background: linear-gradient(135deg, rgba(20,4,55,0.95) 0%, rgba(30,6,75,0.9) 100%);
+  border: 1px solid rgba(168,85,247,0.2); border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(168,85,247,0.1);
+}
+
+.filter-title {
+  font-family: "Orbitron", sans-serif; font-size: 1rem; font-weight: 700;
+  color: #fff; margin: 0 0 1rem;
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 20px rgba(244,114,182,0.4);
+}
+
+.filter-row { display: flex; gap: 0.875rem; align-items: center; }
+
+.search-box {
+  flex: 1; position: relative; display: flex; align-items: center;
+}
+.search-icon {
+  position: absolute; left: 0.875rem; width: 15px; height: 15px;
+  color: rgba(168,85,247,0.5); pointer-events: none;
+}
+.search-input {
+  width: 100%; padding: 0.65rem 0.875rem 0.65rem 2.4rem;
+  background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.2);
+  border-radius: 10px; color: #e2d0f7;
+  font-family: "Rajdhani", sans-serif; font-size: 0.88rem; font-weight: 600;
+  outline: none; transition: all .2s;
+}
+.search-input::placeholder { color: rgba(168,85,247,0.35); }
+.search-input:focus { border-color: rgba(168,85,247,0.5); background: rgba(168,85,247,0.12); }
+
+.role-dropdown { position: relative; display: flex; align-items: center; }
+.role-select {
+  appearance: none; padding: 0.65rem 2.25rem 0.65rem 1rem;
+  background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.2);
+  border-radius: 10px; color: #e2d0f7;
+  font-family: "Rajdhani", sans-serif; font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; outline: none; min-width: 140px; transition: all .2s;
+}
+.role-select:focus { border-color: rgba(168,85,247,0.5); }
+.role-select option { background: #0d0025; color: #e2d0f7; }
+.dropdown-arrow {
+  position: absolute; right: 0.7rem; width: 14px; height: 14px;
+  color: rgba(168,85,247,0.5); pointer-events: none;
+}
+
+.filter-btn {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.65rem 1.5rem;
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+  border: none; border-radius: 10px; color: #fff;
+  font-family: "Orbitron", sans-serif; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.08em; cursor: pointer;
+  transition: all .2s; white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(244,114,182,0.3);
+}
+.filter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244,114,182,0.45);
+  filter: brightness(1.1);
+}

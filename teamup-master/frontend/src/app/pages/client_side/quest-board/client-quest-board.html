@@ -1,0 +1,123 @@
+<div class="page-wrapper">
+  <app-navbar />
+  <client-bg />
+
+  <main class="content">
+    <h1 class="page-title">Quest Intelligence Board</h1>
+
+    <div class="quest-card">
+      <div class="quest-card-info">
+        <h2 class="quest-card-title">{{ activeQuest()?.title || 'Identifying Mission...' }}</h2>
+        
+        <p class="quest-card-party">
+          // Formation: {{ activePartyName() || "None"}}
+        </p>
+        
+        <div class="quest-card-leader">
+          <div class="leader-avatar">{{ generateInitials(partyMasterName()) }}</div>
+          <div class="leader-details">
+            <span class="leader-name">{{ partyMasterName() }}</span>
+            <div class="progress-row">
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="questProgress()"></div>
+              </div>
+              <span class="progress-label">{{ questProgress() }}%</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="quest-card-meta">
+          <span>Deadline: {{ activeQuest()?.deadline | date:'MMMM d, y' }}</span>
+          <span class="quest-status">Status: {{ activeQuest()?.status | titlecase }}</span>
+        </div>
+      </div>
+
+      <div class="quest-actions">
+        <button 
+          class="complete-quest-btn" 
+          [disabled]="questProgress() < 100"
+          (click)="onCompleteQuest()"
+          [title]="questProgress() < 100 ? 'All objectives must be resolved first' : 'Mark quest as finished'">
+          Complete Quest
+        </button>
+      </div>
+    </div>
+
+    <div class="middle-row">
+      <div class="milestone-section">
+        <h3 class="section-title">Tasks</h3>
+        <table class="milestone-table">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Description</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (m of milestones(); track m.name) {
+              <tr>
+                <td>{{ m.name }}</td>
+                <td>{{ m.description }}</td>
+                <td>
+                  <span class="ms-badge" [class]="'ms-' + m.status.toLowerCase().split(' ').join('-')">
+                    {{ m.status }}
+                  </span>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="3" class="empty-state">No active objectives assigned.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    @if (activeQuest()) {
+    <div class="chat-section">
+      <h3 class="section-title">Chat Log</h3>
+      <div class="chat-card">
+        <div class="chat-leader-info">
+          <div class="leader-avatar-lg">{{ generateInitials(partyMasterName()) }}</div>
+          <div>
+            <p class="leader-title">{{ partyMasterName() }}</p>
+            <p class="leader-role">// Party Representative</p>
+          </div>
+          <div class="online-status">
+            <div class="online-dot"></div>
+            Online
+          </div>
+        </div>
+
+        <div class="messages-area">
+          <div class="date-divider">— Transmission Log —</div>
+          @for (msg of messages(); track $index) {
+            <div class="message-row">
+              @if (msg.sender === 'party') {
+                <div class="msg-avatar-sm">{{ msg.initials }}</div>
+                <div class="msg-left">
+                  <span class="msg-name">{{ msg.name }}</span>
+                  <div class="msg-bubble-left">{{ msg.text }}</div>
+                </div>
+              }
+              @if (msg.sender === 'client') {
+                <div class="msg-right-wrap">
+                  <div class="msg-bubble-right">{{ msg.text }}</div>
+                </div>
+                <div class="msg-avatar-sm client-avatar">{{ msg.initials }}</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="message-input-row">
+          <input type="text" class="message-input" placeholder="// Transmissions restricted..." disabled />
+          <button class="send-btn" disabled>Send</button>
+        </div>
+      </div>
+    </div>
+  }
+  </main>
+</div>

@@ -1,0 +1,121 @@
+<div class="page-wrapper">
+  <app-navbar />
+  <freelancer-bg />
+
+  <main class="content">
+
+    <div class="role-badge" [ngClass]="role() === 'partyMaster' ? 'master' : 'apprentice'">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      {{ role() === 'partyMaster' ? 'Party Master' : 'Apprentice' }}
+    </div>
+
+    <div class="welcome-section">
+      <h1 class="welcome-title">Welcome Back, {{ userName() }}!</h1>
+      <p class="welcome-sub">Track your progress and level up your freelancing journey.</p>
+    </div>
+
+    <div class="stats-grid">
+
+      <div class="stat-card" [ngClass]="role() === 'partyMaster' ? 'master' : ''">
+        <div class="stat-icon" [ngClass]="role() === 'partyMaster' ? 'gold' : 'purple'">
+          <svg viewBox="0 0 24 24">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <div>
+          <p class="stat-label">Total XP</p>
+          <h3 class="stat-value" [ngClass]="role() === 'partyMaster' ? 'gold' : ''">
+            {{ exp() | number }}
+          </h3>
+        </div>
+      </div>
+
+      <div class="stat-card" [ngClass]="role() === 'partyMaster' ? 'master' : ''">
+        <div class="stat-icon" [ngClass]="role() === 'partyMaster' ? 'gold' : 'pink'">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="stat-label">System Rank</p>
+          <h3 class="stat-value" [ngClass]="role() === 'partyMaster' ? 'gold' : 'purple'">
+            {{ role() === 'partyMaster' ? 'Master' : 'Apprentice' }}
+          </h3>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
+          </svg>
+        </div>
+        <div>
+          <p class="stat-label">Current Level</p>
+          <h3 class="stat-value green">Level {{ level() }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="tasks-panel">
+      <div class="panel-header">
+        <span class="panel-title">Current Tasks in a Quest</span>
+        <a routerLink="/freelancer/quests-board" class="view-all-link"
+           [class.disabled]="activeTasks().length === 0">View All →</a>
+      </div>
+
+      <div class="task-list">
+        @for (task of activeTasks(); track task._id) {
+          <div class="task-row">
+            <div class="task-row-info">
+              <span class="task-row-name">{{ task.name }}</span>
+              <span class="task-row-quest">Objective: {{ task.description | slice:0:40 }}...</span>
+            </div>
+            
+            <div class="task-row-progress">
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" [style.width.%]="40"></div>
+              </div>
+              <span class="progress-pct">40%</span>
+            </div>
+
+            <span class="task-due">Due: {{ task.createdAt | date:'MMM d' }}</span>
+            <button class="continue-btn" routerLink="/freelancer/quests-board">Continue</button>
+          </div>
+        }
+
+        @if (activeTasks().length === 0) {
+          <div class="no-tasks">
+            <p>No active objectives. Head to the Quests Board to begin your mission.</p>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="leave-party-wrap">
+      <button class="leave-party-btn" (click)="leaveParty()" [disabled]="!user()?.currentParty">
+        <svg class="leave-icon" viewBox="0 0 24 24">
+          <path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5a2 2 0 00-2 2v4h2V5h14v14H5v-4H3v4a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z"/>
+        </svg>
+        Leave Party
+      </button>
+    </div>
+
+  </main>
+
+  @if (showLeaveModal) {
+    <div class="modal-overlay" (click)="showLeaveModal = false">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h3 class="modal-title">Leave Party?</h3>
+        <p class="modal-body">Are you sure you want to exit your current formation? This will sever access to the current Quest Intelligence Board.</p>
+        <div class="modal-actions">
+          <button class="cancel-btn" (click)="showLeaveModal = false">Cancel</button>
+          <button class="leave-confirm-btn" (click)="confirmLeave()">Leave Party</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

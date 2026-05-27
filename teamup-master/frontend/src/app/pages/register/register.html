@@ -1,0 +1,314 @@
+<div class="auth-page">
+  <a routerLink="/" class="back-link">← Back to Home</a>
+
+  <div class="auth-card">
+
+    <!-- ── LEFT: Illustration ── -->
+    <div class="auth-illustration">
+      <img
+        src="https://i.postimg.cc/SN0339Pr/hero_regist.png"
+        alt="Register illustration"
+        class="illus-img"
+      />
+      <div class="illus-overlay"></div>
+    </div>
+
+    <!-- ── RIGHT: Form ── -->
+    <div class="auth-form-panel">
+
+      <div class="form-top">
+        <img src="https://i.postimg.cc/VJ15DJWZ/Team-Up.png" alt="TeamUP" class="form-logo" />
+        <h1>Create Your Account</h1>
+        <p>Join the platform and start collaborating with your team today.</p>
+      </div>
+
+      <!-- ══ ROLE SELECTOR (shown first) ══ -->
+      @if (!selectedRole()) {
+        <div class="role-selector">
+          <p class="role-selector__label">Choose your role to get started</p>
+          <div class="role-cards">
+
+            <!-- Freelancer Card -->
+            <button class="role-card role-card--freelancer" (click)="selectRole('freelancer')">
+              <div class="role-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 2L13.09 8.26L19 9.27L15 13.14L15.91 19.02L12 16.77L8.09 19.02L9 13.14L5 9.27L10.91 8.26L12 2Z"/>
+                </svg>
+              </div>
+              <div class="role-card__body">
+                <h3>Freelancer</h3>
+                <p>Developer, designer, or tech professional looking for quests and missions.</p>
+                <ul class="role-card__perks">
+                  <li>Accept real-world quests</li>
+                  <li>Earn XP and level up</li>
+                  <li>Build a verified portfolio</li>
+                  <li>Join or lead a party</li>
+                </ul>
+              </div>
+              <div class="role-card__arrow">→</div>
+            </button>
+
+            <!-- Commissioner Card -->
+            <button class="role-card role-card--commissioner" (click)="selectRole('commissioner')">
+              <div class="role-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="7" width="20" height="14" rx="2"/>
+                  <path d="M16 7V5C16 3.9 15.1 3 14 3H10C8.9 3 8 3.9 8 5V7"/>
+                </svg>
+              </div>
+              <div class="role-card__body">
+                <h3>Commissioner</h3>
+                <p>Business owner or client posting projects and hiring skilled teams.</p>
+                <ul class="role-card__perks">
+                  <li>Post real business quests</li>
+                  <li>Hire vetted developer teams</li>
+                  <li>Track project progress</li>
+                  <li>Support local tech talent</li>
+                </ul>
+              </div>
+              <div class="role-card__arrow">→</div>
+            </button>
+
+          </div>
+          <p class="auth-switch">
+            Already have an account?
+            <a routerLink="/login" class="switch-link">Login</a>
+          </p>
+        </div>
+      }
+
+      <!-- ══ FORM (after role is selected) ══ -->
+      @if (selectedRole()) {
+
+        <!-- Role indicator + change -->
+        <div class="role-indicator">
+          <span class="role-indicator__badge" [class.badge--freelancer]="isFreelancer" [class.badge--commissioner]="isCommissioner">
+            {{ isFreelancer ? 'Freelancer' : 'Commissioner' }}
+          </span>
+          <button class="role-indicator__change" (click)="selectedRole.set(null)">Change role</button>
+        </div>
+
+        <div class="divider">or sign up with Email</div>
+
+        <!-- Step tabs -->
+        <div class="step-tabs">
+          <div class="step-tab" [class.active]="step() === 1" (click)="step.set(1)">
+            <span class="st-dot">1</span> Basic Info
+          </div>
+          <div class="st-sep"></div>
+          @if (isFreelancer) {
+            <div class="step-tab"
+                 [class.active]="step() === 2"
+                 [class.unlocked]="step1Valid()"
+                 (click)="step1Valid() && step.set(2)">
+              <span class="st-dot">2</span> Profile
+            </div>
+          }
+        </div>
+
+        @if (apiError()) {
+          <div class="error-banner">⚠️ {{ apiError() }}</div>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="auth-form">
+
+          <!-- ── STEP 1: Basic Info ── -->
+          @if (step() === 1) {
+            <div class="step-fields">
+
+              <div class="field" [class.field-error]="isInvalid('fullName')">
+                <label>Full Name</label>
+                <input type="text" formControlName="fullName" placeholder="Juan dela Cruz" autocomplete="name" />
+                @if (isInvalid('fullName')) { <span class="field-hint">Full name is required.</span> }
+              </div>
+
+              <div class="field" [class.field-error]="isInvalid('email')">
+                <label>Email</label>
+                <input type="email" formControlName="email" placeholder="mail@example.com" autocomplete="email" />
+                @if (isInvalid('email')) { <span class="field-hint">{{ getError('email') }}</span> }
+              </div>
+
+              <!-- Commissioner extra fields on step 1 -->
+              @if (isCommissioner) {
+                <div class="field">
+                  <label>Phone Number <span class="lbl-note">Optional</span></label>
+                  <input type="text" formControlName="phoneNum" placeholder="+63 9XX XXX XXXX" />
+                </div>
+                <div class="field">
+                  <label>GitHub Username <span class="lbl-note">Optional</span></label>
+                  <input type="text" formControlName="githubUsername" placeholder="your-github-username" />
+                </div>
+              }
+
+              <div class="field" [class.field-error]="isInvalid('password')">
+                <label>Password</label>
+                <div class="input-wrap">
+                  <input [type]="showPass() ? 'text' : 'password'" formControlName="password"
+                         placeholder="Create a strong password" autocomplete="new-password" />
+                  <button type="button" class="eye-btn" (click)="showPass.set(!showPass())">
+                    {{ showPass() ? '🙈' : '👁️' }}
+                  </button>
+                </div>
+                @if (form.get('password')?.dirty || form.get('password')?.touched) {
+                  <div class="pw-requirements">
+                    <div class="pw-req" [class.met]="pwReqs().minLength">
+                      <span class="pw-req-icon">{{ pwReqs().minLength ? '✓' : '○' }}</span> At least 8 characters
+                    </div>
+                    <div class="pw-req" [class.met]="pwReqs().hasUpper">
+                      <span class="pw-req-icon">{{ pwReqs().hasUpper ? '✓' : '○' }}</span> One uppercase letter
+                    </div>
+                    <div class="pw-req" [class.met]="pwReqs().hasLower">
+                      <span class="pw-req-icon">{{ pwReqs().hasLower ? '✓' : '○' }}</span> One lowercase letter
+                    </div>
+                    <div class="pw-req" [class.met]="pwReqs().hasNumber">
+                      <span class="pw-req-icon">{{ pwReqs().hasNumber ? '✓' : '○' }}</span> One number
+                    </div>
+                    <div class="pw-req" [class.met]="pwReqs().hasSpecial">
+                      <span class="pw-req-icon">{{ pwReqs().hasSpecial ? '✓' : '○' }}</span> One special character
+                    </div>
+                  </div>
+                }
+              </div>
+
+              <div class="field" [class.field-error]="form.errors?.['passwordMismatch'] && form.get('confirmPassword')?.touched">
+                <label>Confirm Password</label>
+                <div class="input-wrap">
+                  <input [type]="showConfirm() ? 'text' : 'password'" formControlName="confirmPassword"
+                         placeholder="Repeat your password" autocomplete="new-password" />
+                  <button type="button" class="eye-btn" (click)="showConfirm.set(!showConfirm())">
+                    {{ showConfirm() ? '🙈' : '👁️' }}
+                  </button>
+                </div>
+                @if (form.errors?.['passwordMismatch'] && form.get('confirmPassword')?.touched) {
+                  <span class="field-hint">Passwords do not match.</span>
+                }
+              </div>
+
+              <!-- Commissioner: terms + submit on step 1 -->
+              @if (isCommissioner) {
+                <label class="checkbox-label">
+                  <input type="checkbox" formControlName="agreeTerms" />
+                  <span>I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a></span>
+                </label>
+                @if (termsError()) { <span class="field-hint">You must agree to continue.</span> }
+
+                <button type="submit" class="submit-btn" [disabled]="isLoading() || !step1Valid()">
+                  @if (isLoading()) { <span class="spinner"></span> Creating Account... }
+                  @else { Sign Up as Commissioner }
+                </button>
+              }
+
+              <!-- Freelancer: next step -->
+              @if (isFreelancer) {
+                <button type="button" class="submit-btn" (click)="nextStep()" [disabled]="!step1Valid()">
+                  Next: Profile Info →
+                </button>
+              }
+
+            </div>
+          }
+
+          <!-- ── STEP 2: Freelancer Profile ── -->
+          @if (step() === 2 && isFreelancer) {
+            <div class="step-fields">
+
+              <div class="field">
+                <label>GitHub Username <span class="lbl-note">Auto-calculates your role</span></label>
+                <input type="text" formControlName="githubUsername" placeholder="your-github-username" />
+                <span class="field-note">3000+ commits → auto-promoted to Party Master on login</span>
+              </div>
+
+              <div class="field">
+                <label>Phone Number <span class="lbl-note">Optional</span></label>
+                <input type="text" formControlName="phoneNum" placeholder="+63 9XX XXX XXXX" />
+              </div>
+
+              <div class="field">
+                <label>Location <span class="lbl-note">Optional</span></label>
+                <input type="text" formControlName="location" placeholder="Angeles City, Pampanga" />
+              </div>
+
+              <!-- Primary Skills -->
+              <div class="field">
+                <label>Primary Skills <span class="lbl-note">Select from list</span></label>
+                <div class="tag-box" [class.tag-box--focus]="skillDropOpen()">
+                  @for (s of primarySkills(); track s) {
+                    <span class="tag">{{ s }}<button type="button" (click)="removeSkill(s)">×</button></span>
+                  }
+                  <div class="tag-select-wrap">
+                    <input type="text" class="tag-input"
+                           placeholder="{{ primarySkills().length === 0 ? 'Add a skill…' : '' }}"
+                           readonly
+                           (click)="skillDropOpen.set(!skillDropOpen())"
+                           (blur)="onSkillBlur()" />
+                    @if (skillDropOpen()) {
+                      <div class="tag-dropdown">
+                        @for (opt of filteredSkills(); track opt) {
+                          <div class="tag-opt" [class.selected]="primarySkills().includes(opt)" (mousedown)="toggleSkill(opt)">
+                            <span class="tag-opt-check">{{ primarySkills().includes(opt) ? '✓' : '' }}</span>{{ opt }}
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tech Stack -->
+              <div class="field">
+                <label>Tech Stack <span class="lbl-note">Select from list</span></label>
+                <div class="tag-box" [class.tag-box--focus]="techDropOpen()">
+                  @for (t of techStack(); track t) {
+                    <span class="tag">{{ t }}<button type="button" (click)="removeTech(t)">×</button></span>
+                  }
+                  <div class="tag-select-wrap">
+                    <input type="text" class="tag-input"
+                           placeholder="{{ techStack().length === 0 ? 'Add a technology…' : '' }}"
+                           readonly
+                           (click)="techDropOpen.set(!techDropOpen())"
+                           (blur)="onTechBlur()" />
+                    @if (techDropOpen()) {
+                      <div class="tag-dropdown">
+                        @for (group of techGroups; track group.label) {
+                          <div class="tag-group-label">{{ group.label }}</div>
+                          @for (opt of group.items; track opt) {
+                            <div class="tag-opt" [class.selected]="techStack().includes(opt)" (mousedown)="toggleTech(opt)">
+                              <span class="tag-opt-check">{{ techStack().includes(opt) ? '✓' : '' }}</span>{{ opt }}
+                            </div>
+                          }
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="agreeTerms" />
+                <span>I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a></span>
+              </label>
+              @if (termsError()) { <span class="field-hint">You must agree to continue.</span> }
+
+              <div class="step2-btns">
+                <button type="button" class="back-btn" (click)="step.set(1)">← Back</button>
+                <button type="submit" class="submit-btn flex1" [disabled]="isLoading()">
+                  @if (isLoading()) { <span class="spinner"></span> Creating Account... }
+                  @else { Sign Up as Freelancer }
+                </button>
+              </div>
+
+            </div>
+          }
+
+        </form>
+
+        <p class="auth-switch">
+          Already have an account?
+          <a routerLink="/login" class="switch-link">Login</a>
+        </p>
+
+      }
+
+    </div>
+  </div>
+</div>

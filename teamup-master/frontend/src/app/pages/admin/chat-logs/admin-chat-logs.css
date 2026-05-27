@@ -1,0 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
+:host { display: block; min-height: 100vh; background: #06000f; }
+.shell { display: flex; min-height: 100vh; position: relative; }
+.main-wrap { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; position: relative; z-index: 1; }
+.content { padding: 1.5rem 2rem 4rem; flex: 1; display: flex; flex-direction: column; gap: 1.25rem; }
+.page-title { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 900; color: #fff; margin: 0; text-shadow: 0 0 30px rgba(244,114,182,.4); letter-spacing: .04em; }
+.chat-layout { display: grid; grid-template-columns: 320px 1fr; gap: 0; flex: 1; min-height: 580px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(244,114,182,.18); box-shadow: 0 0 40px rgba(244,114,182,.08), 0 8px 40px rgba(0,0,0,.5); }

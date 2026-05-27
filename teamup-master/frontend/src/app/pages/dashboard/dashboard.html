@@ -1,0 +1,28 @@
+<app-navbar />
+
+<div class="dash">
+  <div class="dash-card">
+    <div class="dash-icon">⚔️</div>
+    <h1>Welcome, <span class="accent">{{ firstName() }}</span>!</h1>
+    <div class="role-badge">{{ roleLabel() }}</div>
+    <p class="dash-note">Dashboard coming soon — your teammates are building it!</p>
+    <div class="dash-stats">
+      <div class="ds">
+        <span class="ds-val">{{ user()?.level ?? 1 }}</span>
+        <span class="ds-label">Level</span>
+      </div>
+      <div class="ds">
+        <span class="ds-val">{{ user()?.exp ?? 0 }}</span>
+        <span class="ds-label">XP</span>
+      </div>
+      <div class="ds">
+        <span class="ds-val">{{ user()?.githubUsername ?? '—' }}</span>
+        <span class="ds-label">GitHub</span>
+      </div>
+    </div>
+    <div class="dash-actions">
+      <a routerLink="/" class="btn-ghost">← Back to Home</a>
+      <button class="btn-danger" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</div>

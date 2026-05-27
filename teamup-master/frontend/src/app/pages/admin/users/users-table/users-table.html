@@ -1,0 +1,49 @@
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>NAME</th>
+        <th>ROLE</th>
+        <th>EMAIL</th>
+        <th>LEVEL</th>
+        <th>RANK</th>
+        <th>STATUS</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users; track user._id; let i = $index) {
+        <tr>
+          <td>
+            <div class="name-cell">
+              <div class="user-avatar">{{ getInitials(user.fullName) }}</div>
+              <span>{{ user.fullName }}</span>
+            </div>
+          </td>
+          <td>
+            <span class="role-badge" 
+                  [class]="user.role === 'commissioner' ? 'role-client' : 'role-freelancer'">
+              {{ user.role === 'commissioner' ? 'Client' : 'Freelancer' }}
+            </span>
+          </td>
+          <td class="email-cell">{{ user.email }}</td>
+          <td class="level-cell">{{ user.level ?? 1 }}</td>
+          <td>
+            @let rank = calculateRank(user.level);
+            <span class="rank-badge" [class]="'rank-' + rank.toLowerCase()">
+              {{ rank }}
+            </span>
+          </td>
+          <td>
+            <span class="status-badge status-active">
+              Active
+            </span>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="6" class="empty-state">No operatives found in the database.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
