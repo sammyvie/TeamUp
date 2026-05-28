@@ -1,8 +1,9 @@
 [build]
-  # Steps into teamup-master/frontend to run your Angular production build
+  # Steps into the subfolder where your package.json and angular.json sit
   base = "teamup-master/frontend"
   command = "npm run build -- --configuration=production"
-  publish = "dist/teamup-master"
+  # MATCH: Points directly to the outputPath defined in your angular.json file
+  publish = "dist/frontend"
 
 [functions]
   # Points Netlify directly to your backend serverless functions folder
@@ -17,7 +18,7 @@
   to = "/.netlify/functions/server/:splat"
 
 [[redirects]]
-  # The classic Angular route guard fallback fix for page refreshes
+  # The fallback rule so page refreshes don't break routes
   from = "/*"
   status = 200
   to = "/index.html"
