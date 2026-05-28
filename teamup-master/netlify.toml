@@ -1,0 +1,23 @@
+[build]
+  # Steps into teamup-master/frontend to run your Angular production build
+  base = "teamup-master/frontend"
+  command = "npm run build -- --configuration=production"
+  publish = "dist/teamup-master"
+
+[functions]
+  # Points Netlify directly to your backend serverless functions folder
+  directory = "teamup-master/backend/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  # Redirects all frontend /api calls to your serverless Express function
+  from = "/api/*"
+  status = 200
+  force = true
+  to = "/.netlify/functions/server/:splat"
+
+[[redirects]]
+  # The classic Angular route guard fallback fix for page refreshes
+  from = "/*"
+  status = 200
+  to = "/index.html"
