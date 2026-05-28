@@ -1,4 +1,5 @@
 import express from 'express';
+import serverless from 'serverless-http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
@@ -51,3 +52,6 @@ if (process.env.NODE_ENV !== "production") {
 
 // Export the app instance so the serverless handler can run it on Netlify
 export default app;
+
+// Export the serverless handler at the very end so it wraps the fully built app layout
+export const handler = serverless(app);
