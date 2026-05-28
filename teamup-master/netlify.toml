@@ -1,25 +1,20 @@
-[build]
-  # Tell Netlify where to start processing the frontend build
+[[build]
   base = "teamup-master/frontend"
-  command = "npm run build -- --configuration=production"
-  # This tells Netlify exactly where to look for the built Angular index.html 
-  # inside that folder, overriding the dashboard lock!
-  publish = "dist/frontend"
+  command = "npm run build"
+  # MATCH: Points directly to the Angular 19 production browser folder
+  publish = "dist/frontend/browser"
 
 [functions]
-  # This tells Netlify to jump back out and grab your serverless backend code
   directory = "../backend/functions"
   node_bundler = "esbuild"
 
 [[redirects]]
-  # Redirects all frontend /api calls to your serverless Express function
   from = "/api/*"
   status = 200
   force = true
   to = "/.netlify/functions/server/:splat"
 
 [[redirects]]
-  # The essential Angular fallback rule for page refreshes
   from = "/*"
   status = 200
   to = "/index.html"
