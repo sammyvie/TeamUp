@@ -29,12 +29,13 @@ app.get('/api/test-health', (req, res) => {
     res.json({ message: 'TeamUP! Backend serverless bridge is running perfectly' });
 });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/github", githubRoutes);
-app.use("/api/quests", questRoutes);
-app.use("/api/parties", partyRoutes);
-app.use("/api/tasks", taskRoutes);
-app.use("/api/admin", adminRoutes);
+// Dual-routing maps ensure Netlify catches your endpoints seamlessly!
+app.use(["/api/auth", "/.netlify/functions/server/api/auth"], authRoutes);
+app.use(["/api/github", "/.netlify/functions/server/api/github"], githubRoutes);
+app.use(["/api/quests", "/.netlify/functions/server/api/quests"], questRoutes);
+app.use(["/api/parties", "/.netlify/functions/server/api/parties"], partyRoutes);
+app.use(["/api/tasks", "/.netlify/functions/server/api/tasks"], taskRoutes);
+app.use(["/api/admin", "/.netlify/functions/server/api/admin"], adminRoutes);
 
 // Fallback home route
 app.get('/', (req, res) => {

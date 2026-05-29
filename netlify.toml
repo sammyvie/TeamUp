@@ -1,0 +1,24 @@
+[build]
+  command = "npm run build --prefix teamup-master/frontend"
+  publish = "teamup-master/frontend/dist/frontend/browser"
+
+[functions]
+  directory = "teamup-master/backend"
+  node_bundler = "esbuild"
+
+# FORCES NETLIFY TO STAY AT PORT 8888 AND READ THE CORRECT ENV LOCATION
+[dev]
+  port = 8888
+  functions = "teamup-master/backend"
+  publish = "teamup-master/frontend/dist/frontend/browser"
+
+[[redirects]]
+  from = "/api/*"
+  status = 200
+  force = true
+  to = "/.netlify/functions/server/:splat"
+
+[[redirects]]
+  from = "/*"
+  status = 200
+  to = "/index.html"
