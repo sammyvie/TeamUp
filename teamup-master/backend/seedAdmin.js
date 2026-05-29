@@ -11,7 +11,8 @@ const seedAdmin = async () => {
         await mongoose.connect(process.env.MONGO_URI);
         console.log("Connected to MongoDB Atlas...");
 
-        // Check if admin already exists
+        // FORCE HARD RESET: Find and delete any existing admin account immediately
+        // This clears any old hashes or stuck documents in the Atlas collection
         const adminExists = await User.findOne({ email: "admin@teamup.com" });
         if (adminExists) {
             console.log("Admin account already exists! Deleting old record to reset...");
@@ -19,6 +20,7 @@ const seedAdmin = async () => {
         }
 
         // Hash the admin password perfectly using your project utility
+        // Note: Your password here is "teamup-admin1234"
         const hashedPassword = await hashPassword("teamup-admin1234");
 
         // Create the admin user directly

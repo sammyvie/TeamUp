@@ -144,7 +144,7 @@ export class Register {
   removeTech(t: string): void { this.techStack.update(arr => arr.filter(x => x !== t)); }
   onTechBlur(): void { setTimeout(() => this.techDropOpen.set(false), 150); }
 
-  onSubmit(): void {
+ onSubmit(): void {
     if (!this.form.get('agreeTerms')?.value) { this.termsError.set(true); return; }
     this.termsError.set(false);
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }
@@ -154,8 +154,12 @@ export class Register {
 
     const { fullName, email, password, githubUsername, phoneNum, location } = this.form.value;
 
+    // Added role to the payload object
     const payload: any = {
-      fullName: fullName!, email: email!, password: password!,
+      fullName: fullName!, 
+      email: email!, 
+      password: password!,
+      role: this.selectedRole(), // Now sending 'freelancer' or 'commissioner'
       ...(githubUsername && { githubUsername }),
       ...(phoneNum       && { phoneNum }),
       ...(location       && { location }),
