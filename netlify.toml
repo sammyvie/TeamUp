@@ -1,5 +1,6 @@
 [build]
-  command = "npm run build --prefix teamup-master/frontend"
+  # This installs the dependencies first, THEN builds your Angular site
+  command = "npm install --prefix teamup-master/frontend && npm run build --prefix teamup-master/frontend"
   publish = "teamup-master/frontend/dist/frontend/browser"
 
 [functions]
