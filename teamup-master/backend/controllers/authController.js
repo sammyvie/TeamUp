@@ -22,7 +22,6 @@ export const register = async (req, res) => {
         }
 
         // 3. Normalize roles based on your registration screens
-        // Maps 'freelancer' role string to 'apprentice' if your frontend sends it that way
         let assignedRole = role ? role.toLowerCase() : "apprentice";
         if (assignedRole === "freelancer") {
             assignedRole = "apprentice";
@@ -42,7 +41,7 @@ export const register = async (req, res) => {
             email,
             password: hashedPassword,
             role: assignedRole,
-            githubUsername: githubUsername || "", // Defaults to empty string if skipped
+            githubUsername: githubUsername || "", 
             phoneNum: phoneNum || "",
             location: location || "",
             professionalInfo: {
@@ -55,10 +54,22 @@ export const register = async (req, res) => {
         const savedUser = user.toObject();
         delete savedUser.password;
 
-        res.status(201).json({ user: savedUser });
+        // ✨ FIXED: Send back the user details AND the token so they stay logged in immediately!
+        res.status(201).json({ 
+            user: {
+                _id: savedUser._id,
+                fullName: savedUser.fullName,
+                email: savedUser.email,
+                role: savedUser.role,
+                githubUsername: savedUser.githubUsername,
+                level: savedUser.level,
+                exp: savedUser.exp,
+            },
+            token: generateToken(savedUser._id)
+        });
 
     } catch (error) {
-        console.error("🔥 REGISTRATION FAILURE:", error);
+        console.error("REGISTRATION FAILURE:", error);
         res.status(500).json({
             message: "Registration failed",
             error: error.message
@@ -91,11 +102,10 @@ export const login = async (req, res) => {
                 if (commits >= 3000 && user.role !== "partyMaster") {
                     user.role = "partyMaster";
                     await user.save();
-                    console.log(`🚀 Freelancer ${user.email} promoted to Party Master!`);
+                    console.log(`Freelancer ${user.email} promoted to Party Master!`);
                 }
             } catch (githubErr) {
-                // Failsafe: Ensures third-party service hiccups never lock a public user out
-                console.error("⚠️ GitHub sync skipped during login:", githubErr.message);
+                console.error("GitHub sync skipped during login:", githubErr.message);
             }
         }
 
@@ -114,7 +124,7 @@ export const login = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("🔥 SYSTEM LOGIN CRASH REASON:", error);
+        console.error("SYSTEM LOGIN CRASH REASON:", error);
         res.status(500).json({
             message: "Login failed",
             error: error.message

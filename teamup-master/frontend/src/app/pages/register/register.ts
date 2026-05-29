@@ -144,7 +144,7 @@ export class Register {
   removeTech(t: string): void { this.techStack.update(arr => arr.filter(x => x !== t)); }
   onTechBlur(): void { setTimeout(() => this.techDropOpen.set(false), 150); }
 
- onSubmit(): void {
+  onSubmit(): void {
     if (!this.form.get('agreeTerms')?.value) { this.termsError.set(true); return; }
     this.termsError.set(false);
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }
@@ -154,12 +154,12 @@ export class Register {
 
     const { fullName, email, password, githubUsername, phoneNum, location } = this.form.value;
 
-    // Added role to the payload object
+    // ✨ FIXED: Added role parameter right here into the outbound bundle!
     const payload: any = {
       fullName: fullName!, 
       email: email!, 
       password: password!,
-      role: this.selectedRole(), // Now sending 'freelancer' or 'commissioner'
+      role: this.selectedRole(), 
       ...(githubUsername && { githubUsername }),
       ...(phoneNum       && { phoneNum }),
       ...(location       && { location }),
@@ -184,10 +184,11 @@ export class Register {
     });
   }
 
+  // ✨ FIXED: Added toLowerCase() fallback tracking so redirects never misfire
   private redirectByRole(role: string): void {
-    switch (role) {
+    switch (role?.toLowerCase()) {
       case 'commissioner': this.router.navigate(['/client']);          break;
-      case 'partyMaster':  this.router.navigate(['/freelancer']);      break;
+      case 'partymaster':  this.router.navigate(['/freelancer']);      break;
       case 'apprentice':   this.router.navigate(['/freelancer']);      break;
       case 'admin':        this.router.navigate(['/admin/dashboard']); break;
       default:             this.router.navigate(['/dashboard']);
