@@ -1,17 +1,15 @@
 [build]
-  # No need for --prefix anymore since Netlify starts inside the frontend directory!
-  command = "npm run build"
-  publish = "dist/frontend/browser"
+  command = "npm run build --prefix teamup-master/frontend"
+  publish = "teamup-master/frontend/dist/frontend/browser"
 
 [functions]
-  # Point backward out of the frontend folder and into the backend folder
-  directory = "../backend"
+  directory = "teamup-master/backend"
   node_bundler = "esbuild"
 
 [dev]
   port = 8888
-  functions = "../backend"
-  publish = "dist/frontend/browser"
+  functions = "teamup-master/backend"
+  publish = "teamup-master/frontend/dist/frontend/browser"
 
 [[redirects]]
   from = "/api/*"
