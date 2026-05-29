@@ -13,7 +13,10 @@ import partyRoutes from "./routes/partyRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 
-dotenv.config();
+// Only load dotenv if we are NOT in production (local development inside Codespaces)
+if (process.env.NODE_ENV !== "production") {
+    dotenv.config();
+}
 
 const app = express();
 
